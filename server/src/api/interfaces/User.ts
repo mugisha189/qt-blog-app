@@ -1,7 +1,15 @@
-import { IUser } from "../models";
+export interface UserBase {
+  name: string;
+  photo?: string;
+  email: string;
+  password: string;
+  role: "Admin" | "User" | "Author";
+}
 
-export type NewUser = Omit<IUser, "role">;
+export interface User extends UserBase {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export type LoginUser = Pick<IUser, "email" | "password">;
-
-export type PublicUser = Omit<NewUser, "password">;
+export interface NewUser extends Omit<User, "id" | "createdAt" | "updatedAt"> {}

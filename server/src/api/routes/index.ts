@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import userRouter from "./user.route";
-import categoriesRouter from "./category.route";
+import postRouter from "./post.route";
 import authRouter from "./auth.route";
 import docsRouter from "./docs.route";
 import dashboardRouter from "./dashboard.route";
@@ -12,7 +12,7 @@ const routes: {
   route: Router;
 }[] = [
   { path: "/users", route: userRouter },
-  { path: "/categories", route: categoriesRouter },
+  { path: "/post", route: postRouter },
   { path: "/auth", route: authRouter },
   { path: "/dashboard", route: dashboardRouter },
 ];

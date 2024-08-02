@@ -6,13 +6,10 @@ import sequelize from "../db";
 class User extends Model {
   public id!: number;
   public name!: string;
-  public surname!: string;
-  public birthdate!: Date;
-  public sex!: string;
   public photo?: string;
   public email!: string;
   public password!: string;
-  public role!: "Admin" | "User"; // Enum for role
+  public role!: "Admin" | "User" | "Author";
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -28,21 +25,9 @@ User.init(
       type: new DataTypes.STRING(128),
       allowNull: false,
     },
-    surname: {
-      type: new DataTypes.STRING(128),
-      allowNull: false,
-    },
     photo: {
       type: new DataTypes.STRING(128),
       allowNull: true,
-    },
-    birthdate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    sex: {
-      type: new DataTypes.STRING(128),
-      allowNull: false,
     },
     email: {
       type: new DataTypes.STRING(128),
@@ -53,9 +38,9 @@ User.init(
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM("Admin", "User"),
+      type: DataTypes.ENUM("Admin", "User","Author"),
       allowNull: false,
-      defaultValue: "User", 
+      defaultValue: "User",
     },
   },
   {
