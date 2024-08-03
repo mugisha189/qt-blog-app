@@ -63,37 +63,42 @@ const Navbar: React.FC = () => {
             </Link>
           ))}
         </div>
-        {!user ? (
-          <div className="flex items-center gap-2 text-base text-white font-semibold">
-            <Button
-              variant="primary"
-              onClick={() => openModal(<Login />)}
-              className="font-normal"
-            >
-              Log In
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => openModal(<SignUp />)}
-              className="font-normal"
-            >
-              Register
-            </Button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 text-base text-white font-semibold">
-            <Button variant="primary" onClick={logout}>
-              <MdExitToApp />
-            </Button>
-          </div>
-        )}
-        <div className="block md:hidden" onClick={() => setMobileNav(true)}>
+        <div className="hidden md:block">
+          {!user ? (
+            <div className="flex items-center gap-2 text-base text-white font-semibold">
+              <Button
+                variant="primary"
+                onClick={() => openModal(<Login />)}
+                className="font-normal"
+              >
+                Log In
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => openModal(<SignUp />)}
+                className="font-normal"
+              >
+                Register
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-base text-white font-semibold">
+              <Button variant="primary" onClick={logout}>
+                <MdExitToApp />
+              </Button>
+            </div>
+          )}
+        </div>
+        <div
+          className="block md:hidden"
+          onClick={() => setMobileNav(!mobileNav)}
+        >
           <MenuIcon />
         </div>
         <div
           className={`${
             mobileNav ? "block" : "hidden"
-          } absolute z-30 top-[100%] left-0 bg-black text-white w-full flex flex-col gap-2 py-2 text-center`}
+          } absolute z-30 top-[100%] left-0 bg-white bg-opacity-75  text-black  flex flex-col gap-2 py-2 text-center items-center justify-center w-screen h-screen`}
           onMouseEnter={() => setMobileNav(true)}
           onMouseLeave={() => setMobileNav(false)}
           onClick={() => setMobileNav(false)}
@@ -101,9 +106,9 @@ const Navbar: React.FC = () => {
           {routes.map((route, i) => (
             <Link
               key={i}
-              className={`capitalize cursor-pointer ${
+              className={`capitalize cursor-pointer border-b w-full ${
                 activeRoute === route.href
-                  ? "text-[#3bcf93]"
+                  ? "text-primary"
                   : "hover:text-myText"
               }`}
               to={route.href}
@@ -111,6 +116,28 @@ const Navbar: React.FC = () => {
               {route.name}
             </Link>
           ))}
+          {!user ? (
+            <div className="w-full">
+              <button
+                onClick={() => openModal(<Login />)}
+                className="font-normal w-full border-b py-2"
+              >
+                Log In
+              </button>
+              <button
+                onClick={() => openModal(<SignUp />)}
+                className="font-normal w-full py-2"
+              >
+                Register
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-base text-white font-semibold">
+              <button onClick={logout} className="font-normal w-full py-2">
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
