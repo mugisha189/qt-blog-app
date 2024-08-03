@@ -4,20 +4,20 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Button from "../../components/core/button";
 import { useUser } from "../../hooks/useUser";
 
-interface LoginFormValues {
+interface SignUpFormValues {
   email: string;
   password: string;
 }
 
-const Login: React.FC = () => {
+const SignUp: React.FC = () => {
   const { login } = useUser();
-  const initialValues: LoginFormValues = {
+  const initialValues: SignUpFormValues = {
     email: "",
     password: "",
   };
 
-  const validate = (values: LoginFormValues) => {
-    const errors: Partial<LoginFormValues> = {};
+  const validate = (values: SignUpFormValues) => {
+    const errors: Partial<SignUpFormValues> = {};
     if (!values.email) {
       errors.email = "Username or Email is required";
     }
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
     return errors;
   };
   const onSubmit = async (
-    values: LoginFormValues,
+    values: SignUpFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     setSubmitting(true);
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
   return (
     <div className="w-full  text-black p-6 ">
       <div className="mb-5">
-        <p className=" text-3xl font-extrabold text-primary">Login</p>
+        <p className=" text-3xl font-extrabold text-primary">Sign Up</p>
         <p className="text-xs  text-left  text-gray-700">
           Welcome back! Please enter your credentials to access your account. If
           you encounter any issues, feel free to reach out to our support team
@@ -52,6 +52,21 @@ const Login: React.FC = () => {
       >
         {({ isSubmitting }) => (
           <Form>
+            <div className="my-3">
+              <label htmlFor="name" className="w-full  text-sm mb-2">
+                Name
+              </label>
+              <Field
+                type="text"
+                name="name"
+                className="px-4 py-2 bg-inherit border-myBlue w-full border outline-none text-sm  rounded-2xl focus:border-primary transition-colors duration-300 focus:border-2"
+              />
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="text-xs text-red-500"
+              />
+            </div>
             <div className="my-3">
               <label htmlFor="email" className="w-full  text-sm mb-2">
                 Email
@@ -84,7 +99,7 @@ const Login: React.FC = () => {
             </div>
             <div className="flex justify-end mt-5">
               <Button variant="primary" type="submit" loading={isSubmitting}>
-                <p className="px-10">Log In</p>
+                <p className="px-10">Register</p>
               </Button>
             </div>
           </Form>
@@ -94,4 +109,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default SignUp;

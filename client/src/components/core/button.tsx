@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ButtonProps {
-  variant: "primary" | "secondary" | "red" | "blue";
+  variant: "primary" | "secondary" | "danger";
   className?: string;
   onClick?: () => void;
   children: React.ReactNode;
@@ -20,23 +20,21 @@ const Button: React.FC<ButtonProps> = ({
   loading = false,
 }) => {
   const baseStyles =
-    "p-2 px-4 rounded-xl focus:outline-none";
+    "p-2 px-5 rounded-xl focus:outline-none disabled:cursor-not-allowed";
   let variantStyles = "";
 
   if (variant === "primary") {
     variantStyles = "bg-primary text-white";
   } else if (variant === "secondary") {
-    variantStyles = "border border-primary text-primary";
-  } else if (variant === "blue") {
-    variantStyles = "bg-myBlue border-blue-900 border text-white";
-  } else if (variant === "red") {
-    variantStyles = "bg-myRed border-red-900 border text-white";
+    variantStyles = "border border-primary text-primary bg-white";
+  } else if (variant === "danger") {
+    variantStyles = "border border-red-500 bg-red-50  text-red-500 ";
   }
 
   return (
     <button
       type={type}
-      className={`${baseStyles} ${variantStyles} ${className} `}
+      className={`${baseStyles} ${variantStyles} ${className}`}
       onClick={onClick}
       disabled={disabled || loading}
     >

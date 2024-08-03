@@ -1,97 +1,109 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { AiOutlineSearch, AiOutlineSetting } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { MenuIcon } from "../core/icons";
+import { useModal } from "../../hooks/useModal";
+import Button from "../core/button";
+import Login from "../../pages/auth/Login";
+import SignUp from "../../pages/auth/Signup";
+import { useUser } from "../../hooks/useUser";
 
-const morningGreetings = [
-  { language: "English", greeting: "Good Morning 🌅" },
-  { language: "French", greeting: "Bonjour 🌞" },
-  { language: "Spanish", greeting: "Buenos Días 🌻" },
-  // Add more morning greetings here
-];
-
-const afternoonGreetings = [
-  { language: "English", greeting: "Good Afternoon ☀️" },
-  { language: "French", greeting: "Bon Après-midi 🌤️" },
-  { language: "Spanish", greeting: "Buenas Tardes ☀️" },
-  // Add more afternoon greetings here
-];
-
-const eveningGreetings = [
-  { language: "English", greeting: "Good Evening 🌆" },
-  { language: "French", greeting: "Bonsoir 🌙" },
-  { language: "Spanish", greeting: "Buenas Noches 🌜" },
-  // Add more evening greetings here
+const routes = [
+  { name: "Blogs", href: "/blogs" },
 ];
 
 const Navbar: React.FC = () => {
-  const [greetingIndex, setGreetingIndex] = useState(0);
-  const [currentGreetings, setCurrentGreetings] = useState(morningGreetings);
-  const location = useLocation();
+  const [activeRoute, setActiveRoute] = useState<string>("/");
+  const [mobileNav, setMobileNav] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { openModal } = useModal();
+  const { user } = useUser();
 
   useEffect(() => {
-    const updateGreetingSet = () => {
-      const hour = new Date().getHours();
-      if (hour < 12) {
-        setCurrentGreetings(morningGreetings);
-      } else if (hour < 18) {
-        setCurrentGreetings(afternoonGreetings);
-      } else {
-        setCurrentGreetings(eveningGreetings);
-      }
+    setActiveRoute(window.location.pathname);
+
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 200);
     };
 
-    updateGreetingSet();
+    window.addEventListener("scroll", handleScroll);
 
-    const intervalId = setInterval(() => {
-      setGreetingIndex(
-        (prevIndex) => (prevIndex + 1) % currentGreetings.length
-      );
-    }, 10000);
-
-    return () => clearInterval(intervalId);
-  }, [currentGreetings.length]);
-
-  const handleSearchClick = () => {
-    console.log("clicked on");
-  };
-
-  const renderGreeting = () => {
-    const currentGreeting = currentGreetings[greetingIndex];
-    return (
-      <span className="text-gray-800 font-medium text-lg">
-        {currentGreeting.greeting}
-      </span>
-    );
-  };
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <nav className={`absolute w-full top-0 transition duration-300 p-2 `}>
-      <div className="px-4 py-2 flex justify-between items-center bg-background2  bg-opacity-50 backdrop-blur-sm rounded-2xl">
-        <div className="text-xl font-bold">
-          {location.pathname === "/" ? (
-            renderGreeting()
-          ) : (
-            <span>{location.pathname.slice(1).toUpperCase()}</span>
-          )}
+    <div className="fixed w-full z-40 text-sm">
+      <div
+        className={`${
+          isScrolled
+            ? "bg-primary shadow-xl"
+            : "bg-gradient-to-b from-primary to-transparent pb-6"
+        } text-white flex items-center gap-2 justify-between px-6 py-3 transition-colors duration-300`}
+      >
+        <Link to={"/"}>
+          <p className="text-white font-semibold text-3xl">QT Blog</p>
+        </Link>
+        <div className="hidden md:flex items-center gap-5">
+          {routes.map((route, i) => (
+            <Link
+              key={i}
+              className={`capitalize cursor-pointer ${
+                activeRoute === route.href
+                  ? "text-[#3bcf93]"
+                  : "hover:text-myText"
+              }`}
+              to={route.href}
+            >
+              {route.name}
+            </Link>
+          ))}
         </div>
-        <div className="flex items-center space-x-4">
-          {location.pathname === "/" && (
-            <div className="flex items-center gap-2  border-myBlue border  rounded-2xl focus:border-primary transition-colors duration-300 focus:border-2 px-4">
-              <input
-                type="text"
-                placeholder="Search..."
-                className=" py-2 bg-inherit w-full  outline-none text-sm "
-                onClick={handleSearchClick}
-              />
-              <AiOutlineSearch className=" text-gray-500 w-5 h-5" />
-            </div>
-          )}
-          <button className="p-2">
-            <AiOutlineSetting className="text-xl" />
-          </button>
+        {!user && (
+          <div className="flex items-center gap-2 text-base text-white font-semibold">
+            <Button
+              variant="primary"
+              onClick={() => openModal(<Login />)}
+              className="font-normal"
+            >
+              Log In
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => openModal(<SignUp />)}
+              className="font-normal"
+            >
+              Register
+            </Button>
+          </div>
+        )}
+        <div className="block md:hidden" onClick={() => setMobileNav(true)}>
+          <MenuIcon />
+        </div>
+        <div
+          className={`${
+            mobileNav ? "block" : "hidden"
+          } absolute z-30 top-[100%] left-0 bg-black text-white w-full flex flex-col gap-2 py-2 text-center`}
+          onMouseEnter={() => setMobileNav(true)}
+          onMouseLeave={() => setMobileNav(false)}
+          onClick={() => setMobileNav(false)}
+        >
+          {routes.map((route, i) => (
+            <Link
+              key={i}
+              className={`capitalize cursor-pointer ${
+                activeRoute === route.href
+                  ? "text-[#3bcf93]"
+                  : "hover:text-myText"
+              }`}
+              to={route.href}
+            >
+              {route.name}
+            </Link>
+          ))}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 

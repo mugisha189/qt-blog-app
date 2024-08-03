@@ -6,6 +6,8 @@ class Post extends Model {
   public id!: number;
   public title!: string;
   public content!: string;
+  public shortDescription!: string;
+  public image!: string;
   public authorId!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -22,8 +24,16 @@ Post.init(
       type: new DataTypes.STRING(256),
       allowNull: false,
     },
+    shortDescription: {
+      type: new DataTypes.TEXT(),
+      allowNull: false,
+    },
+    image: {
+      type: new DataTypes.TEXT(),
+      allowNull: false,
+    },
     content: {
-      type: new DataTypes.TEXT,
+      type: new DataTypes.TEXT(),
       allowNull: false,
     },
     authorId: {
@@ -31,7 +41,7 @@ Post.init(
       allowNull: false,
       references: {
         model: User,
-        key: 'id',
+        key: "id",
       },
       onDelete: "CASCADE",
     },

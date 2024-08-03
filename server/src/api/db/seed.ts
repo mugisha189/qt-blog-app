@@ -6,14 +6,11 @@ import config from "../../config/config";
 const seedData = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
     const passwordHash = await bcrypt.hash("Admin123", config.BCRYPT_SALT);
     const adminUser = await User.create({
       name: "Admin",
-      surname: "User",
-      birthdate: new Date(),
-      sex: "Male",
-      role: "ADMIN",
+      role: "Admin",
       email: "admin@app.com",
       password: passwordHash,
     });

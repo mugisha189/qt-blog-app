@@ -4,7 +4,6 @@ import postRouter from "./post.route";
 import commentRouter from "./comment.route";
 import authRouter from "./auth.route";
 import docsRouter from "./docs.route";
-import dashboardRouter from "./dashboard.route";
 
 const router = express.Router();
 
@@ -16,7 +15,6 @@ const routes: {
   { path: "/post", route: postRouter },
   { path: "/comment", route: commentRouter },
   { path: "/auth", route: authRouter },
-  { path: "/dashboard", route: dashboardRouter },
 ];
 
 const devRoutes = [

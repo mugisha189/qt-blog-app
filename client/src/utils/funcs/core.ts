@@ -1,57 +1,28 @@
-import { FormatDateOptions } from "../../types/core";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { parseDOM } from "htmlparser2";
+import { DomUtils } from "htmlparser2";
+import { uploadToCloudinary } from "./cloudinary";
 
-export const formatDate = (
-  date: Date,
-  formatOption: FormatDateOptions = "both"
-): string => {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+export async function processHTMLContent(content: string): Promise<string> {
+  const dom = parseDOM(content);
+  const nodes = DomUtils.findAll((elem: any) => {
+    return (
+      (elem.name === "img" || elem.name === "video") &&
+      elem.attribs &&
+      elem.attribs.src &&
+      elem.attribs.src.startsWith("data:")
+    );
+  }, dom);
 
-  const month = months[date.getMonth()];
-  const day = date.getDate();
-  const year = date.getFullYear();
-
-  const hours = date.getHours().toString().padStart(2, "0");
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-
-  const formattedDate = `${month} ${day} ${year}`;
-  const formattedTime = `${hours}:${minutes}`;
-
-  switch (formatOption) {
-    case "date":
-      return formattedDate;
-    case "time":
-      return formattedTime;
-    case "both":
-    default:
-      return `${formattedDate},${formattedTime}`;
-  }
-};
-
-export function parseDateString(dateString: string) {
-  if (!dateString.includes("T")) {
-    dateString += "T00:00";
-  } else {
-    const [datePart, timePart] = dateString.split("T");
-    if (!timePart) {
-      dateString = `${datePart}T00:00`;
+  for (const node of nodes) {
+    const dataUrl = node.attribs.src;
+    try {
+      const cloudinaryUrl = await uploadToCloudinary(dataUrl);
+      node.attribs.src = cloudinaryUrl;
+    } catch (error) {
+      console.error("Error uploading to Cloudinary:", error);
     }
   }
-  const dateObject = new Date(dateString);
-  if (isNaN(dateObject.getTime())) {
-    throw new Error("Invalid date format");
-  }
-  return dateObject;
+
+  return DomUtils.getOuterHTML(dom);
 }
