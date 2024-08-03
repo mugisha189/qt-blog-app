@@ -19,9 +19,6 @@ export const createRefreshToken = (payload: Payload) => {
 };
 
 export const verifyAuthToken = (token: string) => {
-  console.log(token);
-  console.log(config.JWT_SECRET + "verifying");
   const data = jwt.verify(token, config.JWT_SECRET);
-  console.log(data);
   return data;
 };

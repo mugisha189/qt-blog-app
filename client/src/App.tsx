@@ -11,6 +11,7 @@ import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
 import Blogs from "./pages/Blogs";
 import AddBlog from "./pages/app/AddBlog";
+import ABlog from "./pages/ABlog";
 // import SignUp from "./pages/auth/Signup";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:id" element={<ABlog />} />
         <Route
           path="/blogs/create"
           element={!user ? <Navigate to="/" /> : <AddBlog />}

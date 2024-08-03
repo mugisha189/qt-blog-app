@@ -7,16 +7,16 @@ import Button from "../components/core/button";
 import { useUser } from "../hooks/useUser";
 
 const Blogs: React.FC = () => {
-  const { data, loading, error } = useGet<Post[]>("/posts");
+  const { data, loading, error } = useGet<Post[]>("/post");
   const navigate = useNavigate();
   const { user } = useUser();
 
   return (
-    <div className="pt-20">
+    <div className="py-20">
       <div className="px-[7vw] space-y-8">
         <div className="flex items-center justify-between">
           <p className="text-xs">
-            Home {">"} <span className="text-myText">News</span>
+            Home {">"} <span className="text-myText">Posts</span>
           </p>
           {user && (user.role === "Author" || user.role === "Admin") && (
             <Button
@@ -24,7 +24,7 @@ const Blogs: React.FC = () => {
               variant="primary"
               className="flex items-center gap-2"
             >
-              <IoMdAddCircle /> <p className="text-sm">Add News</p>
+              <IoMdAddCircle /> <p className="text-sm">Add Post</p>
             </Button>
           )}
         </div>
@@ -49,7 +49,7 @@ const Blogs: React.FC = () => {
             {data?.map((news, index) => (
               <div
                 key={index}
-                onClick={() => navigate(`/news/${news.id}`)}
+                onClick={() => navigate(`/blogs/${news.id}`)}
                 className=" shadow rounded-2xl  bg-white p-2 text-myText cursor-pointer "
               >
                 <img

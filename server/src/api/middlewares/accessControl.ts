@@ -13,12 +13,10 @@ export default function accessControl(allowedRoles: string[] | "ALL") {
       const token = req.token;
       if (!token) throw new APIError(status.UNAUTHORIZED, `Invalid token`);
       const payload = verifyAuthToken(token) as Payload;
-      console.log(payload);
       req.user = payload;
       if (allowedRoles === "ALL") return next();
       // if (!allowedRoles.includes(payload.role))
       // 	throw new APIError(status.UNAUTHORIZED, `Access denied`)
-
       next();
     } catch (err) {
       next(err);

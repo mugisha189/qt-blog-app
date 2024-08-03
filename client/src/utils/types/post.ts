@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface CreatePostData {
   title: string;
   shortDescription: string;
@@ -16,8 +18,12 @@ export interface Post extends CreatePostData {
 
 export interface Comment {
   id: number;
-  userId: number;
+  parentId?: number;
+  replies: Comment[];
+  authorId: number;
+  author: User;
   content: string;
 }
 
-export interface CreateComment extends Omit<Comment, "id"> {}
+export interface CreateComment
+  extends Omit<Comment, "id" | "replies" | "author"> {}

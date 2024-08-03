@@ -12,6 +12,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^8.0.0",
     "@paypal/react-paypal-js": "^8.5.0",
+    "@tailwindcss/typography": "^0.5.13",
     "axios": "^1.6.8",
     "ckeditor5": "^42.0.2",
     "clsx": "^2.1.1",

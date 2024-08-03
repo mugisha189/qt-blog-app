@@ -22,7 +22,11 @@ const getPostById = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getAllPosts = async (_req: Request, res: Response, next: NextFunction) => {
+const getAllPosts = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const posts = await postService.getAllPosts();
     res.json(posts);
