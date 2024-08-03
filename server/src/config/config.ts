@@ -12,8 +12,7 @@ const config = {
   MYSQL_DATABASE: process.env.MYSQL_DATABASE || "qt-blog",
   BCRYPT_SALT: parseInt(process.env.BCRYPT_SALT || "12"),
   ENV: process.env.NODE_ENV,
-  JWT_SECRET: process.env.JWT_SECRET || "glosita",
-  CLIENT_URL: process.env.CLIENT_URL || "http://localhost:3000",
+  JWT_SECRET: process.env.JWT_SECRET || "qt-blog",
   APP_URL: process.env.APP_URL || "http://localhost:5000",
 };
 
