@@ -6,6 +6,15 @@
 
 @tailwind utilities;
 
+@layer base {
+  .font-outline-2 {
+    -webkit-text-stroke: 3px white;
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px white;
+  }
+}
+
 * {
   user-select: none;
   font-family: "Poppins", sans-serif;

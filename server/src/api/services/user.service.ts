@@ -4,14 +4,18 @@ import { NewUser } from "../interfaces/User";
 import APIError from "../helpers/APIError";
 import status from "http-status";
 import config from "../../config/config";
+import { Op } from "sequelize";
 
 const createUser = async (body: NewUser) => {
-  console.log(body)
+  console.log(body);
   const existingUser = await User.findOne({ where: { email: body.email } });
   if (existingUser) {
     throw new APIError(status.CONFLICT, "Email already taken");
   }
-  const passwordHash = await bcrypt.hash(body.password || "Default123", config.BCRYPT_SALT);
+  const passwordHash = await bcrypt.hash(
+    body.password || "Default123",
+    config.BCRYPT_SALT
+  );
   const newUser = await User.create({ ...body, password: passwordHash });
   return newUser;
 };
@@ -23,7 +27,9 @@ const getUserById = (id: number) => {
 const getAllUsers = async () => {
   return User.findAll({
     where: {
-      role: "User",
+      role: {
+        [Op.not]: "Admin",
+      },
     },
   });
 };

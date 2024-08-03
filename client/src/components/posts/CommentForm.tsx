@@ -6,7 +6,7 @@ import { useUser } from "../../hooks/useUser";
 import { createComment } from "../../utils/funcs/comments";
 
 interface CommentFormProps {
-  postId: string;
+  postId: number;
   onSubmitSuccess: () => void;
 }
 
@@ -33,7 +33,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
 
     try {
       await createComment({
-        postId: parseInt(postId),
+        postId: parseInt(postId.toString()),
         authorId: parseInt(user?.id as any),
         content,
       });

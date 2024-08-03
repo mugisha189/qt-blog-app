@@ -1,11 +1,12 @@
 import useGet from "../../hooks/useGet";
+import { useUser } from "../../hooks/useUser";
 import { Comment } from "../../utils/types/post";
 import Title from "../core/title";
 import AComment from "./AComment";
 import CommentForm from "./CommentForm";
 
 interface CommentSectionProps {
-  postId: string;
+  postId: number;
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
@@ -13,17 +14,23 @@ const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {
     data: comments,
     loading,
     error,
+    refetch,
   } = useGet<Comment[]>(`/comment/post/${postId}`);
+  const { user } = useUser();
 
   return (
     <div className="space-y-4 my-5 w-full">
       <Title text="Comments" />
-      <CommentForm
-        postId={postId}
-        onSubmitSuccess={() => {
-          /* handle refresh */
-        }}
-      />
+      {user ? (
+        <CommentForm
+          postId={postId}
+          onSubmitSuccess={() => {
+            refetch();
+          }}
+        />
+      ) : (
+        <div>To Comment Please Login</div>
+      )}
       <div className="mt-4 space-y-4">
         {loading && <p>Loading comments...</p>}
         {error && <p>Error loading comments: {error.message}</p>}

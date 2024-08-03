@@ -58,9 +58,9 @@ const FileInput: React.FC<FileInputProps> = ({
             <div className="text-gray-400 text-sm py-20 flex items-center justify-center flex-col">
               <p className="text-base font-medium">Uploading...</p>
             </div>
-          ) : file ? (
+          ) : file || initialFileUrl ? (
             <img
-              src={file}
+              src={file || initialFileUrl}
               alt="File Preview"
               className="w-full h-full object-cover"
               width={1000}

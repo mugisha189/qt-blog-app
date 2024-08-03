@@ -11,7 +11,18 @@ export interface UserContextProps {
   setUser: (user: User | null) => void;
   updateUser: () => void;
   logout: () => void;
-  login: (values: { email: string; password: string }) => Promise<void>;
+  login: (
+    values: { email: string; password: string },
+    callback?: () => void
+  ) => Promise<void>;
+  signup: (
+    values: {
+      name: string;
+      email: string;
+      password: string;
+    },
+    callback?: () => void
+  ) => Promise<void>;
 }
 
 export const UserContext = createContext<UserContextProps | undefined>(
@@ -94,14 +105,42 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
-  const login = async (values: { email: string; password: string }) => {
+  const login = async (
+    values: { email: string; password: string },
+    callback?: () => void
+  ) => {
     try {
       const response = await unauthorizedApi.post("/auth/login", values);
       Cookies.set("accessToken", response.data.accessToken, { expires: 1 });
       Cookies.set("refreshToken", response.data.refreshToken, { expires: 1 });
       Cookies.set("user", JSON.stringify(response.data.user), { expires: 1 });
       setUser(response.data.user);
-      navigate("/");
+      callback && callback();
+    } catch (error: any) {
+      if (error.response && error.response.data && error.response.data.error) {
+        toast.error(error.response.data.error, {
+          transition: Bounce,
+        });
+      } else {
+        toast.error("Error while logging in!", {
+          transition: Bounce,
+        });
+      }
+      console.log("Error", error);
+    }
+  };
+
+  const signup = async (
+    values: { email: string; password: string },
+    callback?: () => void
+  ) => {
+    try {
+      const response = await unauthorizedApi.post("/auth/register", values);
+      Cookies.set("accessToken", response.data.accessToken, { expires: 1 });
+      Cookies.set("refreshToken", response.data.refreshToken, { expires: 1 });
+      Cookies.set("user", JSON.stringify(response.data.user), { expires: 1 });
+      setUser(response.data.user);
+      callback && callback();
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
         toast.error(error.response.data.error, {
@@ -122,7 +161,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
     Cookies.remove("tokenTimestamp");
-    navigate("/auth/login");
+    navigate("/");
   };
 
   if (loading) {
@@ -141,6 +180,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         updateUser,
         logout,
         login,
+        signup,
       }}
     >
       {children}

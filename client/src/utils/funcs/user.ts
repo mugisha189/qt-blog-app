@@ -25,11 +25,11 @@ export const createUser = async (
 
 export const updateUser = async (
   user: Partial<User>,
-  id: string,
+  id: number,
   callback?: () => void
 ): Promise<User | void> => {
   try {
-    console.log(id)
+    console.log(id);
     const response = await authorizedApi.put(`/users/${id}`, user);
     toast.success("User updated successfully");
     callback && callback();

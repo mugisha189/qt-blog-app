@@ -3,6 +3,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Button from "../../components/core/button";
 import { useUser } from "../../hooks/useUser";
+import { useModal } from "../../hooks/useModal";
 
 interface LoginFormValues {
   email: string;
@@ -11,6 +12,7 @@ interface LoginFormValues {
 
 const Login: React.FC = () => {
   const { login } = useUser();
+  const { closeModal } = useModal();
   const initialValues: LoginFormValues = {
     email: "",
     password: "",
@@ -23,6 +25,13 @@ const Login: React.FC = () => {
     }
     if (!values.password) {
       errors.password = "Password is required";
+    } else if (
+      !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(
+        values.password
+      )
+    ) {
+      errors.password =
+        "Password must be at least 8 characters long and include upper and lower case letters, numbers, and special characters";
     }
     return errors;
   };
@@ -31,12 +40,12 @@ const Login: React.FC = () => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     setSubmitting(true);
-    await login(values);
+    await login(values, closeModal);
     setSubmitting(false);
   };
 
   return (
-    <div className="w-full  text-black p-6 ">
+    <div className="w-full  text-black p-6 bg-white">
       <div className="mb-5">
         <p className=" text-3xl font-extrabold text-primary">Login</p>
         <p className="text-xs  text-left  text-gray-700">

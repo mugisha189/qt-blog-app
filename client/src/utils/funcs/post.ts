@@ -11,7 +11,7 @@ export const createPost = async (postData: CreatePostData) => {
   });
   return response.data;
 };
-export const editPost = async (
+export const updatePost = async (
   id: string,
   postData: Partial<CreatePostData>
 ) => {

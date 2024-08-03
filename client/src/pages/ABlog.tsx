@@ -5,6 +5,7 @@ import useGet from "../hooks/useGet";
 import { Post } from "../utils/types/post";
 import CommentSection from "../components/posts/CommentsSection";
 import Title from "../components/core/title";
+import { MdArrowBackIos } from "react-icons/md";
 
 const ABlog: React.FC = () => {
   const navigate = useNavigate();
@@ -23,6 +24,10 @@ const ABlog: React.FC = () => {
 
   return (
     <div className="pt-20 px-5">
+      <button onClick={() => window.history.back()} className="flex items-center text-primary gap-2">
+        <MdArrowBackIos />
+        <p>Back</p>
+      </button>
       <div className="py-4 flex space-x-4  text-myText text-sm">
         <div className="w-3/4 space-y-4">
           {postLoading && (

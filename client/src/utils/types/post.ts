@@ -9,7 +9,7 @@ export interface CreatePostData {
 }
 
 export interface Post extends CreatePostData {
-  id: string;
+  id: number;
   image: string;
   createdAt: Date;
   updatedAt: Date;

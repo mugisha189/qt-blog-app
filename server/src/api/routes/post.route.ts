@@ -16,13 +16,12 @@ router.post(
 // Read Post by ID
 router.get(
   "/:id",
-  accessControl("ALL"),
   validator.params({ id: idValidation }),
   postController.getPostById
 );
 
 // Read All Posts
-router.get("/", accessControl("ALL"), postController.getAllPosts);
+router.get("/", postController.getAllPosts);
 
 // Update Post by ID
 router.put(

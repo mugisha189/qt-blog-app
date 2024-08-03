@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MenuIcon } from "../core/icons";
 import { useModal } from "../../hooks/useModal";
 import Button from "../core/button";
 import Login from "../../pages/auth/Login";
 import SignUp from "../../pages/auth/Signup";
 import { useUser } from "../../hooks/useUser";
-
-const routes = [
-  { name: "Blogs", href: "/blogs" },
-];
+import { MdExitToApp } from "react-icons/md";
 
 const Navbar: React.FC = () => {
+  const location = useLocation();
   const [activeRoute, setActiveRoute] = useState<string>("/");
   const [mobileNav, setMobileNav] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { openModal } = useModal();
-  const { user } = useUser();
+  const { user, logout } = useUser();
+  const routes = [
+    { name: "Blogs", href: "/blogs" },
+    ...(user && user.role === "Admin"
+      ? [{ name: "Users", href: "/users" }]
+      : []),
+  ];
 
   useEffect(() => {
-    setActiveRoute(window.location.pathname);
+    setActiveRoute(location.pathname);
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 200);
@@ -30,15 +34,17 @@ const Navbar: React.FC = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [location]);
+
+  const isHomePage = location.pathname === "/";
 
   return (
     <div className="fixed w-full z-40 text-sm">
       <div
         className={`${
-          isScrolled
-            ? "bg-primary shadow-xl"
-            : "bg-gradient-to-b from-primary to-transparent pb-6"
+          isHomePage && !isScrolled
+            ? "bg-gradient-to-b from-primary to-transparent pb-6"
+            : "bg-primary shadow-xl"
         } text-white flex items-center gap-2 justify-between px-6 py-3 transition-colors duration-300`}
       >
         <Link to={"/"}>
@@ -49,9 +55,7 @@ const Navbar: React.FC = () => {
             <Link
               key={i}
               className={`capitalize cursor-pointer ${
-                activeRoute === route.href
-                  ? "text-[#3bcf93]"
-                  : "hover:text-myText"
+                activeRoute === route.href ? "font-bold" : "hover:text-myText"
               }`}
               to={route.href}
             >
@@ -59,7 +63,7 @@ const Navbar: React.FC = () => {
             </Link>
           ))}
         </div>
-        {!user && (
+        {!user ? (
           <div className="flex items-center gap-2 text-base text-white font-semibold">
             <Button
               variant="primary"
@@ -74,6 +78,12 @@ const Navbar: React.FC = () => {
               className="font-normal"
             >
               Register
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 text-base text-white font-semibold">
+            <Button variant="primary" onClick={logout}>
+              <MdExitToApp />
             </Button>
           </div>
         )}

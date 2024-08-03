@@ -5,13 +5,12 @@ export default {
   newUser: Joi.object<NewUser>({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
-    photo: Joi.string().optional(),
     password: Joi.string().min(8).max(25).optional(),
   }),
   updateUser: Joi.object({
     name: Joi.string().optional(),
     email: Joi.string().email().optional(),
-    photo: Joi.string().optional(),
     password: Joi.string().min(8).max(25).optional(),
+    role: Joi.string().valid("Admin", "User", "Author").optional(),
   }),
 };

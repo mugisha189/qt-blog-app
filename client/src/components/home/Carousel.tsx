@@ -11,6 +11,7 @@ const responsive = {
 };
 
 interface Slide {
+  id: number;
   media: string;
   title: string;
   body: string;
@@ -29,7 +30,7 @@ const CarouselElement: React.FC<{ slides: Slide[] }> = ({ slides }) => {
         {slides?.map((slide, i) => (
           <div
             key={i}
-            className=" flex  flex-col justify-center text-left  px-[7%] lg:px-20 w-full h-full py-24 "
+            className=" flex  flex-col justify-center text-left  px-[7%] lg:px-20 w-full h-full py-32 "
             style={{
               backgroundImage: `url(${slide.media})`,
               backgroundSize: "cover",
@@ -41,9 +42,9 @@ const CarouselElement: React.FC<{ slides: Slide[] }> = ({ slides }) => {
             <p className="font-medium text-xl text-white mb-5 w-full lg:w-[80%]">
               {slide.body}
             </p>
-            <Link to={"/about"}>
-              <div className="px-10 py-2 rounded-lg bg-primary text-myText text-xs w-fit">
-                Learn More
+            <Link to={`/blogs/${slide.id}`}>
+              <div className="px-10 py-2 rounded-lg bg-primary  text-white  w-fit">
+                Read Article
               </div>
             </Link>
           </div>

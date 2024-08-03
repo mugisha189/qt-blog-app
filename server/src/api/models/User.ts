@@ -6,7 +6,6 @@ import sequelize from "../db";
 class User extends Model {
   public id!: number;
   public name!: string;
-  public photo?: string;
   public email!: string;
   public password!: string;
   public role!: "Admin" | "User" | "Author";
@@ -24,10 +23,6 @@ User.init(
     name: {
       type: new DataTypes.STRING(128),
       allowNull: false,
-    },
-    photo: {
-      type: new DataTypes.STRING(128),
-      allowNull: true,
     },
     email: {
       type: new DataTypes.STRING(128),

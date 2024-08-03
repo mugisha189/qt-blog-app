@@ -1,6 +1,5 @@
 export interface UserBase {
   name: string;
-  photo?: string;
   email: string;
   password: string;
   role: "Admin" | "User" | "Author";

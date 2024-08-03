@@ -7,7 +7,7 @@ const seedData = async () => {
   try {
     await sequelize.authenticate();
     await sequelize.sync({ force: true });
-    const passwordHash = await bcrypt.hash("Admin123", config.BCRYPT_SALT);
+    const passwordHash = await bcrypt.hash("Admin@123", config.BCRYPT_SALT);
     const adminUser = await User.create({
       name: "Admin",
       role: "Admin",
