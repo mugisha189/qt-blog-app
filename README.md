@@ -1,9 +1,9 @@
-
 # QT Blog
 
-QT Blog is a MERN stack application that includes a client-side built with React and a server-side built with Node.js, Express, and MongoDB. This documentation will guide you through setting up and running both the client and server.
+QT Blog is anapplication that includes a client-side built with React(Typescript) and a server-side built with Node.js(Typescript), Express, and MariaDB. This documentation will guide you through setting up and running both the client and server.
 
 ## Project Structure
+
 ```
 
 QT-Blog/
@@ -32,7 +32,7 @@ QT-Blog/
 │
 ├── server/ # Express server and API
 │ ├── src/
-│ │ ├── api/ 
+│ │ ├── api/
 │ │  |  ├── controllers/ # API controllers
 │ │  |  ├── models/ # Database models
 │ │  |  ├── db/ # Database connection and seed file
@@ -45,7 +45,7 @@ QT-Blog/
 │ └── package.json # Server package configuration
 └── README.md # Project documentation
 
-````
+```
 
 ## Prerequisites
 
@@ -53,7 +53,7 @@ Before you begin, ensure you have the following installed:
 
 - **Node.js** (v14.x or later)
 - **Yarn** or **npm**
-- **MySQL** (Ensure MySQL is running on port 3306)
+- **MariaDB** (Ensure MariaDB is running on port 3306)
 
 ## Setup
 
@@ -62,14 +62,14 @@ Before you begin, ensure you have the following installed:
 ```bash
 git clone https://github.com/mugisha189/QT-Blog.git
 cd QT-Blog
-````
+```
 
 ### 2. Create the Database
 
-Ensure MySQL is running on port `3306`, and create a new database named `qt-global`:
+Ensure MariaDB is running on port `3306`, and create a new database named `qt-blog`:
 
 ```sql
-CREATE DATABASE `qt-global`;
+CREATE DATABASE `qt-blog`;
 ```
 
 ### 3. Install Dependencies
@@ -80,7 +80,7 @@ Navigate to both the `client` and `server` directories separately and install th
 
 ```bash
 cd client
-yarn install
+yarn add
 # or
 npm install
 ```
@@ -89,7 +89,7 @@ npm install
 
 ```bash
 cd ../server
-yarn install
+yarn add
 # or
 npm install
 ```
@@ -137,4 +137,3 @@ In the `server` directory, you can run:
 
 - **`yarn start` / `npm start`**: Starts the Express server.
 - **`yarn dev` / `npm run dev`**: Starts the Express server with Nodemon for hot-reloading.
-
